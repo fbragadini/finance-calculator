@@ -1,0 +1,13 @@
+/* GLOBALS */
+:root {
+    --verde: rgb(82, 221, 140);
+    --oscuro: #1F2937;
+}
+
+body {
+    background-color: var(--oscuro);
+}
+
+h1, h2, h3, label, span, p {
+    color: whitesmoke;
+}
