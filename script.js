@@ -7,7 +7,7 @@ const tasa = 69.5;
 const coeficiente = parseFloat(tasa/12);
 
 class Prestamo {
-    constructor(nombre, monto, plazo, resultado) {
+    constructor(nombre, monto, plazo, resultado) {        
         this.nombre = nombre;
         this.monto = monto;
         this.plazo = plazo;
@@ -53,98 +53,84 @@ function calcIntComp() {
     }
 }
 
-botonCalc.addEventListener("click", calculadoraPF);
-botonCalcIntComp.addEventListener("change", calcIntComp);
+/* TRACKER */
+const htmlTrackerTotal = document.getElementById("trackerTotal");
+let trackerResult = 0;
+let trackerEntries = [];
+let counter =  1;
+const trackerTable = document.getElementById("trackertable");
+let dollarUSLocale = Intl.NumberFormat('en-US');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*function calculadoraPF() {
-    nombre = (prompt("Ingresa tu nombre"));
-
-    monto = parseFloat(prompt("Ingresa el monto a depositar en plazo fijo"));
-
-    while (isNaN(monto) || (monto < 1))  {
-        alert("Error. No ingresaste un número válido.");
-        monto = parseFloat(prompt("Ingresa el monto a depositar en plazo fijo"));
-    } 
-
-    plazo = parseInt(prompt("Ingresa por cuantos meses realizaras tu plazo fijo."));
-
-    while (isNaN(plazo) || (plazo < 1)) {
-        alert("El valor ingresado no es valido.");
-        plazo = parseInt(prompt("Ingresa por cuantos meses realizaras tu plazo fijo."))
-    }
-    
-    resultado = (((monto*coeficiente)/100)*plazo).toFixed(2);
-
-    let nuevoPrestamo = new Prestamo(nombre, monto, plazo, resultado);
-    historialPrestamos.push(nuevoPrestamo);
-    alert("Pasados " + plazo + " meses, " + nuevoPrestamo.nombre + " habrá ganado $" + resultado + ".");
-    otraConsulta();   
-    
-}
-
-function otraConsulta() {
-    let respuesta = parseInt(prompt("Escribe 1 para realizar otra consulta, 2 para revisar el historial de prestamos y 3 para salir"));
-    switch (respuesta) {
-        case 1: 
-            calculadoraPF();
-            break;
-        case 2:
-            alert("El historial de los prestamos solicitados se ha impreso en la consola del navegador.")
-            console.log(historialPrestamos);
-            otraConsulta();
-            break;
-        case 3:
-        default:
-            alert("¡Gracias por usar nuestro servicio!");
-            break;
+class Entry {
+    constructor (date, description, type, amount) {
+        this.id = counter;
+        this.date = date;
+        this.description = description;
+        this.type = type;
+        this.amount = amount;
     }
 }
-*/
 
+function newEntry() {
+    const trackerEntry = document.getElementById("trackerForm")
+    const newEntry = new Entry(trackerEntry.entryDate.value, trackerEntry.entryDescription.value, trackerEntry.entryType.value, parseInt(trackerEntry.entryAmount.value));
+    trackerEntries.push(newEntry);
+    counter++;
+    console.log(trackerEntries);
+    updateTracker();
+    getResult();
+    saveEntries();
+}
 
+function updateTracker() {
+    trackerTable.innerHTML = ""
+    trackerEntries.forEach((entry) => {    
+    const entryHTML = document.createElement('tr');
+    entryHTML.innerHTML = `
+        <th scope="row">${entry.date}</th> 
+        <td>${entry.description}</td> 
+        <td>${entry.type}</td> 
+        <td>${entry.amount}</td>
+        <td>
+        <button class="deleteBtn" onclick="deleteEntry(event)" id="deleteBtn_${entry.id}">&#10060;</button>
+        </td>
+    `;    
+    trackerTable.appendChild(entryHTML);
+    })
+};
 
-
-
-
-
-/*function calcularMonto(monto, plazo) {
-    resultado = (((monto*coeficiente)/100)*plazo).toFixed(2);
-    alert("Pasados " + plazo + " meses, habrás ganado $" + resultado + ".");
-    nuevoPrestamo.resultado = resultado;
-    console.log(nuevoPrestamo);
-    historialPrestamos.push(resultado)
-    otraConsulta();
-    return resultado;
-    
-}*/
-
-/*function otraConsulta() {
-    let respuesta = prompt("Para realizar otra consulta, ingrese 'Si'");
-    if ((respuesta == "si") || (respuesta == "Si") || (respuesta =="SI") || (respuesta == "sI")) {
-        calculadoraPF();
-    } else {
-        alert("Historial de Calculos")
-        for (let i = 0; i < historialPrestamos.length; i++) {
-            alert("Calculo N°" + parseInt(i + 1) + ": $." + historialPrestamos[i])
+function getResult() {
+    trackerResult = 0;
+    for (let i = 0; i < trackerEntries.length; i++) {
+        if (trackerEntries[i].type == "income") {
+                trackerResult += trackerEntries[i].amount;
+            } else {
+                trackerResult -= trackerEntries[i].amount;
+            }
         }
-        alert("¡Gracias por usar nuestro servicio!");
-    }
+    console.log(trackerResult);
+    htmlTrackerTotal.innerText = '$' + dollarUSLocale.format(trackerResult);
+}
 
-} */
+function deleteEntry(event) {
+    let btn = event.target;
+    let id = btn.id.split("_")[1];
+    trackerEntries = trackerEntries.filter((entry) => entry.id != id);
+    updateTracker();
+    getResult();
+    saveEntries();
+}
 
+function saveEntries() {
+    localStorage.setItem("Entradas", JSON.stringify(trackerEntries));
+}
 
+function loadEntries () {
+    trackerEntries = JSON.parse(localStorage.getItem("Entradas"));
+    updateTracker();
+    getResult();
+}
 
-
+//botonCalc.addEventListener("click", calculadoraPF);
+//botonCalcIntComp.addEventListener("change", calcIntComp);
+loadEntries();

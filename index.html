@@ -11,90 +11,43 @@
 </head>
 <body>
 
-    <section class="container container-fluid contenedor mt-5">
+  <nav class="navbar navbar-expand-md navbar-bg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">FinanceCalc</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="plazo_fijo.html">Plazo Fijo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tracker.html">Tracker</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Cotizaciones</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-        <h1 class="text-center">Simulador de Plazo Fijo</h1>
-        <h2 class="text-center">Ingresa tus datos</h2>
-
-        <div class="d-flex flex-column col-6 align-self-center align-items-start">
-            <div class="row g-3 align-items-center py-2">
-                <div class="col-auto">
-                  <label for="userName" class="col-form-label">Nombre</label>
-                </div>
-                <div class="col-auto">
-                  <input type="text" id="userName" class="form-control" aria-describedby="passwordHelpInline">
-                </div>
-                <div class="col-auto">
-                  <span id="passwordHelpInline" class="form-text">
-                    Ingresa tu nombre.
-                  </span>
-                </div>
-              </div>
-    
-              <div class="row g-3 align-items-center py-2">
-                <div class="col-auto">
-                  <label for="userMonto" class="col-form-label">Monto</label>
-                </div>
-                <div class="col-auto">
-                  <input type="number" id="userMonto" class="form-control" aria-describedby="passwordHelpInline">
-                </div>
-                <div class="col-auto">
-                  <span id="passwordHelpInline" class="form-text">
-                    Ingresa el monto a depositar en plazo fijo.
-                  </span>
-                </div>
-              </div>
-    
-              <div class="row g-3 align-items-center py-2">
-                <div class="col-auto">
-                  <label for="userPlazo" class="col-form-label">Plazo</label>
-                </div>
-                <div class="col-auto">
-                  <input type="number" id="userPlazo" class="form-control" aria-describedby="passwordHelpInline">
-                </div>
-                <div class="col-auto">
-                  <span id="passwordHelpInline" class="form-text">
-                    Ingresa el plazo (expresado en cantidad de meses).
-                  </span>
-                </div>
-              </div>
-    
-              <div class="row g-3 align-items-center py-2">
-                <div class="col-auto">
-                  <label for="userPlazo" class="col-form-label">Tasa de Interes</label>
-                </div>
-                <div class="col-auto">
-                  <input disabled placeholder="69,5%" type="text" id="userPlazo" class="form-control" aria-describedby="passwordHelpInline">
-                </div>
-                <div class="col-auto">
-                  <span id="passwordHelpInline" class="form-text">
-                    
-                  </span>
-                </div>
-              </div>
-
-            
-            <div class="container d-flex gap-2">
-              <input type="checkbox" id="calcIntComp">
-              <p>Calcular interes Compuesto</p>
-            </div>
-            
-            
-    
-            <button class="btn btn-primary btn-lg mb-2" id="botonCalcular">CALCULAR</button>
-    
-            <div id="userResultado"> </div>
-    
+  <div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+      <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-4 fw-bold lh-1">Finance Calculator</h1>
+        <p class="lead">Toma el control de tus finanzas personales. Calcula plazos fijos, averigua el precio de las principales acciones, y registra tus gastos.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Comenzar ahora</button>
         </div>
-        
-       
+      </div>
+      <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-3" src="../Proyecto final CODERHOUSE/img/Photo1.jpg" alt="" width="720">
+      </div>
+    </div>
+  </div>
 
-    </section>
-    
-    
-    
-    
-    
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
