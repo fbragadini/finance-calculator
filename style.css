@@ -23,10 +23,17 @@ body {
 
 .btn-primary {
     background-color: var(--verdeAguaClaro);
-}
+    border-color: var(--verdeAguaOscuro);
+  }
 
 .btn-primary:hover {
     background-color: var(--verdeAguaOscuro);
+    border-color: var(--verdeAguaOscuro);
+}
+
+.btn-primary:active {
+    background-color: var(--verdeAguaOscuro);
+    border-color: var(--verdeAguaOscuro);
 }
 
 .bd-placeholder-img {
@@ -80,6 +87,11 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 
+/* BOTONES */
+
+
+
+
   /* PLAZO FIJO */
 
   .plazofijo-img {
@@ -101,4 +113,14 @@ body {
   .deleteBtn {
     border: none;
     background-color: whitesmoke;
+  }
+
+  .editBtn {
+    border: none;
+    background-color: whitesmoke;
+  }
+
+  .greentext {
+    color: green;
+    font-weight: bold;
   }
