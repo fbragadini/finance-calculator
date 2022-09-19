@@ -53,11 +53,7 @@ function updateTracker() {
 function getResult() {
     trackerResult = 0;
     for (let i = 0; i < trackerEntries.length; i++) {
-        if (trackerEntries[i].type == "Ingreso") {
-                trackerResult += trackerEntries[i].amount;
-            } else {
-                trackerResult -= trackerEntries[i].amount;
-            }
+        trackerEntries[i].type == "Ingreso" ? trackerResult += trackerEntries[i].amount : trackerResult -= trackerEntries[i].amount;
         }
     console.log(trackerResult);
     htmlTrackerTotal.innerText = '$' + dollarUSLocale.format(trackerResult);
