@@ -6,6 +6,26 @@ let counter =  1;
 const trackerTable = document.getElementById("trackertable");
 let dollarUSLocale = Intl.NumberFormat('en-US');
 
+// VARIABLES CHART
+
+const labels = []
+
+const data = {
+    labels: labels,
+    datasets: [{
+        label: 'Detalle de gastos',
+        data: [],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+};
+
+const config = {
+    type: 'line',
+    data: data,
+};
+
 //CLASES
 
 class Entry {
@@ -23,11 +43,11 @@ class Entry {
 function newEntry() {
     const trackerEntry = document.getElementById("trackerForm")
     const newEntry = new Entry(trackerEntry.entryDate.value, trackerEntry.entryDescription.value, trackerEntry.entryType.value, parseInt(trackerEntry.entryAmount.value));
-    trackerEntries.push(newEntry);
+    trackerEntries.push(newEntry); 
     counter++;
-    console.log(trackerEntries);
     updateTracker();
     getResult();
+    addData(myChart, newEntry.date, trackerResult);
     saveEntries();
 }
 
@@ -55,7 +75,6 @@ function getResult() {
     for (let i = 0; i < trackerEntries.length; i++) {
         trackerEntries[i].type == "Ingreso" ? trackerResult += trackerEntries[i].amount : trackerResult -= trackerEntries[i].amount;
         }
-    console.log(trackerResult);
     htmlTrackerTotal.innerText = '$' + dollarUSLocale.format(trackerResult);
 }
 
@@ -65,6 +84,7 @@ function deleteEntry(event) {
     trackerEntries = trackerEntries.filter((entry) => entry.id != id);
     updateTracker();
     getResult();
+    removeData(myChart);
     saveEntries();
 }
 
@@ -79,3 +99,26 @@ function loadEntries() {
 }
 
 loadEntries();
+
+// CHART
+
+const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        chart.update();
+    }
+    
+    function removeData(chart) {
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        chart.update();
+    }
