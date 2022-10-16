@@ -5,12 +5,13 @@ let trackerEntries = [];
 let counter =  1;
 const trackerTable = document.getElementById("trackertable");
 let dollarUSLocale = Intl.NumberFormat('en-US');
+let chartTracker = [];
 
 // VARIABLES CHART
 
-const labels = []
+let labels = []
 
-const data = {
+let data = {
     labels: labels,
     datasets: [{
         label: 'Detalle de gastos',
@@ -26,6 +27,11 @@ const config = {
     data: data,
 };
 
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+);
+
 //CLASES
 
 class Entry {
@@ -38,6 +44,14 @@ class Entry {
     }
 }
 
+class ChartLog {
+    constructor (description, id, amount) {
+        this.description = description;
+        this.id = id;
+        this.amount = amount;
+    }
+}
+
 //FUNCIONES PARA EL TRACKER DE FINANZAS
 
 function newEntry() {
@@ -46,8 +60,11 @@ function newEntry() {
     trackerEntries.push(newEntry); 
     counter++;
     updateTracker();
+    const newLog = new ChartLog(newEntry.description, newEntry.id, trackerResult);
+    chartTracker.push(newLog);
     getResult();
-    addData(myChart, newEntry.date, trackerResult);
+    resetChart();
+    updateChart();
     saveEntries();
 }
 
@@ -73,8 +90,14 @@ function updateTracker() {
 function getResult() {
     trackerResult = 0;
     for (let i = 0; i < trackerEntries.length; i++) {
-        trackerEntries[i].type == "Ingreso" ? trackerResult += trackerEntries[i].amount : trackerResult -= trackerEntries[i].amount;
+        if (trackerEntries[i].type == "Ingreso") {
+            trackerResult += trackerEntries[i].amount;
+            chartTracker[i].amount = trackerResult;
+        } else {
+            trackerResult -= trackerEntries[i].amount;
+            chartTracker[i].amount = trackerResult;
         }
+    }
     htmlTrackerTotal.innerText = '$' + dollarUSLocale.format(trackerResult);
 }
 
@@ -82,30 +105,33 @@ function deleteEntry(event) {
     let btn = event.target;
     let id = btn.id.split("_")[1];
     trackerEntries = trackerEntries.filter((entry) => entry.id != id);
+    chartTracker = chartTracker.filter((entry) => entry.id != id);
     updateTracker();
     getResult();
-    removeData(myChart);
+    resetChart();
+    updateChart();
     saveEntries();
 }
 
 function saveEntries() {
     localStorage.setItem("Entradas", JSON.stringify(trackerEntries));
+    localStorage.setItem("Chart", JSON.stringify(chartTracker));
 }
 
 function loadEntries() {
-    trackerEntries = JSON.parse(localStorage.getItem("Entradas"));
-    updateTracker();
-    getResult();
-}
+    if (trackerEntries.length > 0) {
+        chartTracker = JSON.parse(localStorage.getItem("Chart"));
+        trackerEntries = JSON.parse(localStorage.getItem("Entradas"));
+        updateTracker();
+        getResult();
+        resetChart();
+        updateChart();
+    }
+} 
 
 loadEntries();
 
 // CHART
-
-const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
 
     function addData(chart, label, data) {
         chart.data.labels.push(label);
@@ -122,3 +148,15 @@ const myChart = new Chart(
         });
         chart.update();
     }
+
+    function resetChart() {
+    for (let i = 0; i < data.labels.length; i = i) {
+        removeData(myChart)
+    }
+    console.log(chartTracker);
+    }
+
+    function updateChart() {
+        chartTracker.forEach((newLog) => {
+        addData(myChart, newLog.description, newLog.amount)})
+    };

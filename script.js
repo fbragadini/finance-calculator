@@ -5,11 +5,8 @@ let calcularInteresCompuesto = false;
 const botonCalc = document.getElementById("botonCalcular");
 const botonCalcIntComp = document.getElementById("calcIntComp");
 const historialPrestamos = []
-const tasa = 69.5;
+const tasa = 75;
 const coeficiente = parseFloat(tasa/12);
-
-
-
 
 //CLASES
 
@@ -19,11 +16,9 @@ class Prestamo {
         this.monto = monto;
         this.plazo = plazo;
         this.resultado = resultado;
-        this.tasaInteres = "69.5%";
+        this.tasaInteres = "75%";
     }
 }
-
-
 
 //FUNCIONES PARA CALCULADORA PLAZO FIJO
 
@@ -34,7 +29,7 @@ function calculadoraPF() {
         let userPlazo = parseInt(document.getElementById("userPlazo").value) 
         let userResultado = document.getElementById("userResultado")
 
-        let montoConIntereses = (userMonto * (Math.pow((1 + 0.0579), userPlazo))).toFixed(2);
+        let montoConIntereses = (userMonto * (Math.pow((1 + 0.0625), userPlazo))).toFixed(2);
         const resultado = (montoConIntereses - userMonto).toFixed(2);
 
         let nuevoPrestamo = new Prestamo(userName, userMonto, userPlazo, resultado);

@@ -87,6 +87,16 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 
+  .nav-link:hover {
+    color: var(--verdeAguaClaro);
+  }
+
+  .navbar-brand:hover{
+    color: var(--verdeAguaClaro);
+  }
+
+  
+
 /* BOTONES */
 
 
